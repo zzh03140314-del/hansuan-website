@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>联系我们 - 瀚算云擎 | 合肥敏华信息科技有限公司</title>
+  <meta name="description" content="联系瀚算云擎，获取免费GEO诊断报告与数字化方案。商务合作、技术咨询、服务咨询，我们随时响应。">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ========== 导航栏 ========== -->
+<nav class="navbar" id="navbar">
+  <div class="nav-inner">
+    <a href="index.html" class="logo-group">
+      <img src="logo.jpg" alt="瀚算云擎LOGO" class="logo-img">
+      <span class="logo-text">瀚算云擎</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">首页</a></li>
+      <li><a href="about.html">关于我们</a></li>
+      <li><a href="services.html">产品服务</a></li>
+      <li><a href="contact.html" class="active">联系我们</a></li>
+    </ul>
+    <button class="mobile-toggle" id="mobileToggle" aria-label="菜单">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ========== 页面 Hero ========== -->
+<section class="hero" style="min-height:40vh;padding-top:var(--nav-height);padding-bottom:50px;">
+  <div class="hero-beam"></div><div class="hero-beam"></div>
+  <div class="hero-scanline"></div>
+  <div class="container hero-content">
+    <div class="hero-badge">Contact Us</div>
+    <h1 class="hero-title">联系我们<span class="highlight"></span></h1>
+    <p class="hero-subtitle">无论您有任何疑问或需求，我们的团队都将第一时间响应</p>
+  </div>
+</section>
+
+<!-- ========== 联系主体 ========== -->
+<section class="section">
+  <div class="container">
+    <div class="contact-layout animate-in">
+
+      <!-- 左侧：联系方式 -->
+      <div class="contact-info-panel">
+        <h3>联系方式</h3>
+
+        <div class="contact-method">
+          <div class="icon">📍</div>
+          <div>
+            <h4>公司地址</h4>
+            <p>安徽省合肥市庐阳区<br>四里河红星美凯龙商圈附近</p>
+          </div>
+        </div>
+
+        <div class="contact-method">
+          <div class="icon">📞</div>
+          <div>
+            <h4>商务热线</h4>
+            <p>工作日 9:00-18:00 响应<br>紧急需求24小时在线</p>
+          </div>
+        </div>
+
+        <div class="contact-method">
+          <div class="icon">📧</div>
+          <div>
+            <h4>电子邮箱</h4>
+            <p>business@hansuanyunqing.com<br>support@hansuanyunqing.com</p>
+          </div>
+        </div>
+
+        <div class="contact-method">
+          <div class="icon">🌐</div>
+          <div>
+            <h4>官方网站</h4>
+            <p>https://geo.hansuanyunqing.com</p>
+          </div>
+        </div>
+
+        <div style="margin-top:28px;padding-top:20px;border-top:1px solid rgba(0,180,216,0.1);">
+          <p style="font-size:13px;color:#6b82a0;line-height:1.8;">
+            💡 <strong style="color:#8ba3be;">快速响应通道：</strong><br>
+            通过下方表单提交您的需求，<br>我们将在<strong style="color:var(--cyan-light);">2小时内</strong>与您联系。
+          </p>
+        </div>
+      </div>
+
+      <!-- 右侧：联系表单 -->
+      <div class="contact-form-wrap">
+        <h3>在线咨询 / 需求提交</h3>
+        <form id="contactForm" onsubmit="return handleSubmit(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">姓名 *</label>
+              <input type="text" id="name" name="name" placeholder="请输入您的姓名" required>
+            </div>
+            <div class="form-group">
+              <label for="phone">联系电话 *</label>
+              <input type="tel" id="phone" name="phone" placeholder="请输入手机号码" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="company">公司名称</label>
+              <input type="text" id="company" name="company" placeholder="请输入公司名称">
+            </div>
+            <div class="form-group">
+              <label for="service">咨询服务类型 *</label>
+              <select id="service" name="service" required>
+                <option value="">请选择服务类型</option>
+                <option value="geo">GEO优化（AI搜索）</option>
+                <option value="meituan">美团运营</option>
+                <option value="dianping">大众点评代运营</option>
+                <option value="douyin">抖音代运营</option>
+                <option value="waimai">外卖代运营</option>
+                <option value="ad">微信朋友圈广告</option>
+                <option value="video">短视频/活动拍摄</option>
+                <option value="training">企业家培训</option>
+                <option value="software">软件定制开发</option>
+                <option value="saas">收银SaaS系统</option>
+                <option value="hardware">收银机硬件设备</option>
+                <option value="other">其他咨询</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="message">详细描述您的需求 *</label>
+            <textarea id="message" name="message" placeholder="请简要描述您的业务场景和需求，例如：希望提升品牌在AI平台中的推荐率..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary form-submit">提交需求，2小时内回复 →</button>
+          <div id="formFeedback" style="display:none;margin-top:16px;padding:16px;border-radius:10px;text-align:center;font-size:14px;"></div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========== FAQ ========== -->
+<section class="section faq-section process-section">
+  <div class="container">
+    <div class="section-header animate-in">
+      <span class="section-tag">FAQ</span>
+      <h2 class="section-title">常见<span>问题</span></h2>
+      <p class="section-desc">关于GEO优化和服务的一些常见疑问</p>
+    </div>
+
+    <div class="faq-list animate-in">
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          什么是GEO优化？和SEO有什么区别？
+          <span class="faq-q-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            GEO（Generative Engine Optimization，生成引擎优化）是针对AI对话平台的优化策略，而SEO（搜索引擎优化）针对的是传统搜索引擎（如百度、Google）。当用户在豆包、DeepSeek等AI中提问时，GEO确保你的品牌信息被AI引用和推荐。随着AI使用量爆发式增长，GEO已成为继SEO之后的下一个流量入口。
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          瀚算云擎覆盖哪些AI平台？
+          <span class="faq-q-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            我们主要覆盖国内主流AI平台：字节跳动豆包、腾讯元宝、DeepSeek、百度文心一言等。同时我们也关注国际平台如ChatGPT、Claude的表现监测能力。具体覆盖范围根据您选择的套餐方案而定。
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          GEO优化多久能看到效果？
+          <span class="faq-q-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            一般情况下，基础优化后2-4周可以看到初步数据变化（品牌出现频率提升）。但完整的GEO效果通常需要持续投入3-6个月才能形成稳定优势。我们会定期输出数据报告，让效果可追踪、可量化。
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          本地生活服务代运营的收费模式是什么？
+          <span class="faq-q-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            我们的本地生活运营服务采用「基础服务费+效果佣金」的模式。基础服务费根据业务复杂度定价，效果佣金则与实际增长指标挂钩（如曝光量提升、单量增长等），确保双方利益一致。具体方案需要根据您的实际情况定制。
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          你们的服务区域有哪些限制吗？
+          <span class="faq-q-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            GEO优化服务不受地域限制，全国客户均可服务。本地生活运营类服务目前重点覆盖华东地区（安徽、江苏、浙江、上海），部分业务已扩展至全国多个城市。软件和硬件支持全国发货部署。具体请咨询客服了解详情。
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          如何获取免费的GEO诊断报告？
+          <span class="faq-q-icon">+</span>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">
+            只需通过上方表单提交基本信息，选择「GEO优化」服务类型即可。我们的分析师会在48小时内完成诊断，输出包含：品牌当前在各AI平台的表现评估、竞品对比分析、初步优化建议方向等内容的基础报告，完全免费。
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-banner">
+  <div class="cta-beam"></div>
+  <div class="cta-beam bottom"></div>
+  <div class="container">
+    <h2 class="cta-title">开启您的<span>数字化升级之旅</span></h2>
+    <p class="cta-desc">现在就行动，抢占AI时代的品牌先发优势</p>
+    <a href="#" class="btn btn-primary" onclick="document.getElementById('contactForm').scrollIntoView({behavior:'smooth'}); return false;">立即咨询 →</a>
+  </div>
+</section>
+
+<!-- 页脚 -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="logo-group">
+          <img src="logo.jpg" alt="瀚算云擎LOGO" class="logo-img" style="height:36px;">
+        </a>
+        <p>合肥敏华信息科技有限公司旗下品牌。专注AI驱动的GEO优化与全方位企业数字化服务，让每一家企业都能享受AI时代红利。</p>
+      </div>
+      <div class="footer-col">
+        <h4>核心服务</h4>
+        <ul>
+          <li><a href="services.html#geo">GEO优化</a></li>
+          <li><a href="services.html#local">本地生活运营</a></li>
+          <li><a href="services.html#video">视频内容服务</a></li>
+          <li><a href="services.html#software">软件与硬件</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>关于我们</h4>
+        <ul>
+          <li><a href="about.html">公司简介</a></li>
+          <li><a href="about.html#values">企业文化</a></li>
+          <li><a href="about.html#advantage">核心优势</a></li>
+          <li><a href="#">联系方式</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>联系信息</h4>
+        <ul>
+          <li>📍 安徽省合肥市庐阳区</li>
+          <li>📞 商务咨询热线</li>
+          <li>📧 business@hansuanyunqing.com</li>
+          <li>🌐 geo.hansuanyunqing.com</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 合肥敏华信息科技有限公司 | 瀚算云擎 版权所有</p>
+      <a href="#">隐私政策 · 服务条款</a>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+<script>
+// FAQ 折叠功能
+function toggleFaq(btn) {
+  const item = btn.parentElement;
+  item.classList.toggle('open');
+}
+
+// 表单提交处理
+function handleSubmit(e) {
+  e.preventDefault();
+  const form = document.getElementById('contactForm');
+  const feedback = document.getElementById('formFeedback');
+
+  // 模拟提交成功
+  feedback.style.display = 'block';
+  feedback.style.background = 'rgba(0,180,216,0.08)';
+  feedback.style.border = '1px solid rgba(0,180,216,0.25)';
+  feedback.style.color = '#00d4ff';
+  feedback.innerHTML = '<strong>✅ 提交成功！</strong><br>我们的顾问将在2小时内与您联系，请保持电话畅通。';
+
+  form.reset();
+
+  setTimeout(() => {
+    feedback.style.display = 'none';
+  }, 8000);
+}
+</script>
+</body>
+</html>
