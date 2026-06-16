@@ -1,151 +1,180 @@
 /* ============================================
-   瀚算云擎 - 交互脚本
+   瀚算云擎 - 交互脚本 v3
+   导航 / 滚动入场 / 数字递增 / 表单提交
    ============================================ */
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
 
   // ========== 导航栏滚动效果 ==========
   const navbar = document.getElementById('navbar');
-  
-  function handleScroll() {
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const sections = document.querySelectorAll('section[id]');
+
+  function handleNavScroll() {
     if (window.scrollY > 50) {
       navbar.classList.add('scrolled');
     } else {
       navbar.classList.remove('scrolled');
     }
+
+    // 当前位置高亮
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop - 120;
+      if (window.scrollY >= sectionTop) {
+        current = section.getAttribute('id');
+      }
+    });
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) {
+        link.classList.add('active');
+      }
+    });
   }
-  window.addEventListener('scroll', handleScroll);
-  handleScroll(); // init
+  window.addEventListener('scroll', handleNavScroll, { passive: true });
+  handleNavScroll();
 
   // ========== 移动端菜单切换 ==========
   const mobileToggle = document.getElementById('mobileToggle');
-  const navLinks = document.getElementById('navLinks');
+  const navLinksEl = document.getElementById('navLinks');
 
-  if (mobileToggle && navLinks) {
-    mobileToggle.addEventListener('click', function() {
-      navLinks.classList.toggle('active');
-      // 汉堡变X
-      this.classList.toggle('active');
-      const spans = this.querySelectorAll('span');
-      if (navLinks.classList.contains('active')) {
-        spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
-        spans[1].style.opacity = '0';
-        spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
-      } else {
-        spans[0].style.transform = '';
-        spans[1].style.opacity = '';
-        spans[2].style.transform = '';
+  mobileToggle.addEventListener('click', () => {
+    navLinksEl.classList.toggle('active');
+    const spans = mobileToggle.querySelectorAll('span');
+    if (navLinksEl.classList.contains('active')) {
+      spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+      spans[1].style.opacity = '0';
+      spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+    } else {
+      spans[0].style.transform = 'none';
+      spans[1].style.opacity = '1';
+      spans[2].style.transform = 'none';
+    }
+  });
+
+  // 点击菜单项后关闭
+  navLinksEl.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinksEl.classList.remove('active');
+      const spans = mobileToggle.querySelectorAll('span');
+      spans[0].style.transform = 'none';
+      spans[1].style.opacity = '1';
+      spans[2].style.transform = 'none';
+    });
+  });
+
+  // ========== 滚动入场动画 ==========
+  const animateElements = document.querySelectorAll('.animate-in');
+
+  const observerOptions = {
+    threshold: 0.15,
+    rootMargin: '0px 0px -40px 0px'
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
       }
     });
+  }, observerOptions);
 
-    // 点击链接后关闭菜单
-    navLinks.querySelectorAll('a').forEach(function(link) {
-      link.addEventListener('click', function() {
-        navLinks.classList.remove('active');
-        const spans = mobileToggle.querySelectorAll('span');
-        spans[0].style.transform = '';
-        spans[1].style.opacity = '';
-        spans[2].style.transform = '';
-      });
-    });
+  animateElements.forEach(el => observer.observe(el));
+
+  // ========== 数字递增动画 ==========
+  function countUp(el) {
+    const target = parseInt(el.dataset.target, 10);
+    const duration = 2000;
+    const startTime = performance.now();
+
+    function update(currentTime) {
+      const elapsed = currentTime - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // easeOutQuart
+      const eased = 1 - Math.pow(1 - progress, 4);
+      el.textContent = Math.round(target * eased);
+      if (progress < 1) requestAnimationFrame(update);
+    }
+    requestAnimationFrame(update);
   }
 
-  // ========== 滚动入场动画 (Intersection Observer) ==========
-  const animateElements = document.querySelectorAll('.animate-in');
-  
-  if ('IntersectionObserver' in window && animateElements.length > 0) {
-    const observer = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry, index) {
-        if (entry.isIntersecting) {
-          // 延迟添加visible类，实现错落效果
-          setTimeout(function() {
-            entry.target.classList.add('visible');
-          }, index * 100);
-          observer.unobserve(entry.target);
+  const counters = document.querySelectorAll('.num-counter');
+  let countersStarted = false;
+
+  const statsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !countersStarted) {
+        countersStarted = true;
+        counters.forEach(counter => countUp(counter));
+        statsObserver.disconnect();
+      }
+    });
+  }, { threshold: 0.3 });
+
+  const statsSection = document.getElementById('stats');
+  if (statsSection) statsObserver.observe(statsSection);
+
+  // ========== 表单提交处理 ==========
+  const consultForm = document.getElementById('consultForm');
+  const formFeedback = document.getElementById('formFeedback');
+
+  if (consultForm) {
+    consultForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      // 简单校验
+      const inputs = consultForm.querySelectorAll('input[required], select[required], textarea[required]');
+      let valid = true;
+      inputs.forEach(input => {
+        if (!input.value.trim()) {
+          valid = false;
+          input.style.borderColor = '#ef4444';
+          setTimeout(() => input.style.borderColor = '', 2000);
         }
       });
-    }, {
-      threshold: 0.1,
-      rootMargin: '0px 0px -40px 0px'
-    });
 
-    animateElements.forEach(function(el) {
-      observer.observe(el);
-    });
-  } else {
-    // Fallback: 直接显示
-    animateElements.forEach(function(el) {
-      el.classList.add('visible');
+      if (!valid) return;
+
+      // 模拟提交成功
+      const submitBtn = consultForm.querySelector('.form-submit-btn');
+      submitBtn.textContent = '⏳ 提交中...';
+      submitBtn.disabled = true;
+      submitBtn.style.opacity = '0.7';
+
+      setTimeout(() => {
+        formFeedback.style.display = 'block';
+        formFeedback.style.animation = 'fadeInUp 0.5s ease both';
+        consultForm.reset();
+        submitBtn.textContent = '提交需求，2小时内回复 →';
+        submitBtn.disabled = false;
+        submitBtn.style.opacity = '1';
+
+        // 5秒后隐藏提示
+        setTimeout(() => {
+          formFeedback.style.display = 'none';
+        }, 5000);
+      }, 800);
     });
   }
 
-  // ========== 平滑滚动锚点跳转 ==========
-  document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
-    anchor.addEventListener('click', function(e) {
-      const href = this.getAttribute('href');
-      if (href === '#') return;
-      
-      const target = document.querySelector(href);
+  // ========== 平滑滚动（导航链接） ==========
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetId = anchor.getAttribute('href');
+      if (targetId === '#') return;
+      const target = document.querySelector(targetId);
       if (target) {
-        e.preventDefault();
-        const offsetTop = target.getBoundingClientRect().top + window.pageYOffset - 80;
+        const navHeight = navbar.offsetHeight;
+        const targetPos = target.offsetTop - navHeight - 20;
         window.scrollTo({
-          top: offsetTop,
+          top: targetPos,
           behavior: 'smooth'
         });
       }
     });
-  });
-
-  // ========== 数字递增动画 ==========
-  function animateNumbers() {
-    const statNumbers = document.querySelectorAll('.stat-number, .data-num');
-    
-    statNumbers.forEach(function(el) {
-      const text = el.textContent.trim();
-      const numMatch = text.match(/[\d]+/);
-      if (!numMatch) return;
-
-      const finalNum = parseInt(numMatch[0]);
-      const suffix = text.replace(numMatch[0], '');
-      let current = 0;
-      const duration = 2000; // ms
-      const steps = 60;
-      const increment = finalNum / steps;
-      const stepTime = duration / steps;
-
-      // 只在视口内触发
-      if (!el.dataset.animated) {
-        el.dataset.originalText = text;
-        
-        const numberObserver = new IntersectionObserver(function(entries) {
-          entries.forEach(function(entry) {
-            if (entry.isIntersecting && !el.dataset.animated) {
-              el.dataset.animated = 'true';
-              const timer = setInterval(function() {
-                current += increment;
-                if (current >= finalNum) {
-                  current = finalNum;
-                  clearInterval(timer);
-                }
-                el.textContent = Math.floor(current) + suffix;
-              }, stepTime);
-              numberObserver.unobserve(el);
-            }
-          });
-        }, { threshold: 0.5 });
-        numberObserver.observe(el);
-      }
-    });
-  }
-
-  animateNumbers();
-
-  // ========== 流光束动态位置随机化 ==========
-  const beams = document.querySelectorAll('.hero-beam');
-  beams.forEach(function(beam, i) {
-    beam.style.animationDelay = (-i * 4) + 's';
-    beam.style.top = (15 + i * 20) + '%';
   });
 
 });
